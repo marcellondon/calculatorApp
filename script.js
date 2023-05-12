@@ -9,39 +9,37 @@ let runningCalculation = []
 let operators = ["+", "-", "*", "/"]
 
 
-function addComma(num) {
-
-    if (num === null) return;
-    // if (num.toString().includes(".")) return num;
-    return (
-        num
-            .toString()
-            .split("")
-            .reverse()
-            .map((digit, index) => {
-                let hasDecimal = false
-                if (digit === ".") {
-                    hasDecimal = true
-                } 
-                return index != 0 && index % 4 === 0 && !hasDecimal ? `${digit},` : digit
-            })
-            .reverse()
-            .join("")
-    );
-}
+function addCommasToNumber(number) {
+    // Convert the number to a string
+    let numStr = number.toString();
+  
+    // Split the number into integer and decimal parts
+    let parts = numStr.split('.');
+  
+    // Format the integer part
+    let integerPart = parts[0];
+    let integerFormatted = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  
+    // Combine the integer and decimal parts (if present)
+    let formattedNumber = parts.length > 1 ? integerFormatted + '.' + parts[1] : integerFormatted;
+  
+    return formattedNumber;
+  }
 
 function calculate(input) {
     //    clear function
     if (input === 'C') {
-        runningCalculation = [0]
-        thisCalculation = [0]
-        thisJoinedCalculation =
-            solution = [0]
+        runningCalculation = []
+        thisCalculation = []
+        thisJoinedCalculation = []
+            solution = []
         displayScreen.textContent = "CLEARED"
     } else if (operators.includes(input)) {
+        if (thisJoinedCalculation.length === 0 && runningCalculation.length === 0) return;
         // checks if operator was already pressed, if you want to change operator pressing another one will swap them out before continuing the calculation
         if (runningCalculation.length === 2) {
             runningCalculation[1] = input
+            console.log(`operator switched to ${input}`)
         } else {
             console.log(`operator ${input} pressed`)
             runningCalculation.push(thisJoinedCalculation)
@@ -50,7 +48,7 @@ function calculate(input) {
             runningCalculation = [solution, input]
             thisCalculation = []
             thisJoinedCalculation = []
-            displayScreen.textContent = addComma(solution)
+            displayScreen.textContent = addCommasToNumber(solution)
         }
 
     } else if (input === "=") {
@@ -66,12 +64,12 @@ function calculate(input) {
             runningCalculation = [solution]
             thisCalculation = []
             thisJoinedCalculation = []
-            displayScreen.textContent = addComma(solution)
+            displayScreen.textContent = addCommasToNumber(solution)
         }
     } else {
         thisCalculation.push(input)
         thisJoinedCalculation = thisCalculation.join('')
-        displayScreen.textContent = addComma(thisJoinedCalculation)
+        displayScreen.textContent = addCommasToNumber(thisJoinedCalculation)
     }
 }
 
