@@ -10,15 +10,21 @@ let operators = ["+", "-", "*", "/"]
 
 
 function addComma(num) {
+
     if (num === null) return;
+    // if (num.toString().includes(".")) return num;
     return (
         num
             .toString()
             .split("")
             .reverse()
-            .map((digit, index) =>
-                index != 0 && index % 3 === 0 ? `${digit},` : digit
-            )
+            .map((digit, index) => {
+                let hasDecimal = false
+                if (digit === ".") {
+                    hasDecimal = true
+                } 
+                return index != 0 && index % 4 === 0 && !hasDecimal ? `${digit},` : digit
+            })
             .reverse()
             .join("")
     );
@@ -29,8 +35,8 @@ function calculate(input) {
     if (input === 'C') {
         runningCalculation = [0]
         thisCalculation = [0]
-        thisJoinedCalculation = 
-        solution = [0]
+        thisJoinedCalculation =
+            solution = [0]
         displayScreen.textContent = "CLEARED"
     } else if (operators.includes(input)) {
         // checks if operator was already pressed, if you want to change operator pressing another one will swap them out before continuing the calculation
@@ -48,7 +54,7 @@ function calculate(input) {
         }
 
     } else if (input === "=") {
-// shows error message on screen if you attempt to resolve unfinished calculation
+        // shows error message on screen if you attempt to resolve unfinished calculation
         if (thisJoinedCalculation.length === 0) {
             displayScreen.textContent = "ERROR"
         } else if (displayScreen.textContent === "CLEARED") {
@@ -67,7 +73,6 @@ function calculate(input) {
         thisJoinedCalculation = thisCalculation.join('')
         displayScreen.textContent = addComma(thisJoinedCalculation)
     }
-    console.log(thisCalculation, thisJoinedCalculation, runningCalculation)
 }
 
 
