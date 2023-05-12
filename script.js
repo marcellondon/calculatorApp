@@ -29,17 +29,20 @@ function addCommasToNumber(number) {
 function calculate(input) {
     //    clear function
     if (input === 'C') {
+        // clears all vars to empty array and displays CLEARED
         runningCalculation = []
         thisCalculation = []
         thisJoinedCalculation = []
             solution = []
         displayScreen.textContent = "CLEARED"
+
     } else if (operators.includes(input)) {
+        // if there's no calculation running, return
         if (thisJoinedCalculation.length === 0 && runningCalculation.length === 0) return;
         // checks if operator was already pressed, if you want to change operator pressing another one will swap them out before continuing the calculation
         if (runningCalculation.length === 2) {
+            // if the array is 2 it swaps the operator since operator is always array[2]
             runningCalculation[1] = input
-            console.log(`operator switched to ${input}`)
         } else {
             console.log(`operator ${input} pressed`)
             runningCalculation.push(thisJoinedCalculation)
